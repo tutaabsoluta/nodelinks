@@ -1,5 +1,4 @@
 import express, { Router } from 'express'
-import { AppRoutes } from './routes';
 
 interface Options {
     port: number,

@@ -7,6 +7,10 @@ export class AuthController {
     // DI
     constructor() {}
 
+    private handleError = () => {
+        
+    }
+
     registerUser = (req: Request, res: Response) => {
         res.json('Registrando...')
     }
