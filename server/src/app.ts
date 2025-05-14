@@ -1,7 +1,13 @@
+import { Server } from "./presentation/server"
 
 
-const sum = (a: number, b: number): number => {
-    return a + b
+function main () {
+
+    const server = new Server(3000);
+    server.start()
+    
 }
 
-console.log(sum( 1,2 ))
+( async () => {
+    main()
+})();
