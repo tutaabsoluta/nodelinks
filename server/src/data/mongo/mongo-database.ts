@@ -10,10 +10,10 @@ export class MongoDatabase {
 
 
     static async connect ( options: ConnectionOptions ) {
+
         const { dbName, mongoUrl } = options;
 
-
-        try {            
+        try {
             await mongoose.connect( mongoUrl, {
                 dbName: dbName,
             } )
