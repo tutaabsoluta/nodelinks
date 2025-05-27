@@ -1,4 +1,4 @@
-import { Request, response, Response } from "express"
+import { Request, Response } from "express"
 import { AuthService } from "../services/auth.service"
 import { CustomError, RegisterUserDto } from "../../domain"
 
@@ -21,7 +21,7 @@ export class AuthController {
 
     registerUser = (req: Request, res: Response) => {
         const [ error, registerUserDto ] = RegisterUserDto.create(req.body);
-        if ( error ) return res.status(400).json({error});
+        if ( error ) return res.status(400).json({error})
 
         this.authService.registerUser( registerUserDto! )
             .then( (user) => res.json(user) )

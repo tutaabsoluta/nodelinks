@@ -11,7 +11,7 @@ export class RegisterUserDto {
     ) {}
 
 
-    static create( object: { [ key: string ]: any } ): [ string?, RegisterUserDto? ] {
+    static create( object: {[ key: string ]: any} ): [ string?, RegisterUserDto? ] {
 
         const { name, email, password } = object;
 

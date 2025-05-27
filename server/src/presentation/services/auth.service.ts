@@ -1,3 +1,4 @@
+import { BcryptAdapter } from "../../config";
 import { UserModel } from "../../data";
 import { CustomError, RegisterUserDto, UserEntity } from "../../domain";
 
@@ -16,11 +17,16 @@ export class AuthService {
             // create document
             const user = new UserModel(registerUserDto);
 
-            // saves the document
-            await user.save();
+            // hash the password
+            user.password =  BcryptAdapter.hashPassword( registerUserDto.password );
 
+            // save the document
+            await user.save();
+            
+            // create the entity
             const { password, ...userEntity } = UserEntity.fromObject(user);
 
+            // return the user entity and token
             return {
                 user: userEntity,
                 token: 'ABC',
