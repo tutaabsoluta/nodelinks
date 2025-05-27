@@ -13,6 +13,8 @@ export class RegisterUserDto {
 
     static create( object: {[ key: string ]: any} ): [ string?, RegisterUserDto? ] {
 
+        if ( !object ) return [ 'Missing user, email and password', undefined ]
+
         const { name, email, password } = object;
 
         if ( !name ) return [ 'Missing name' ];

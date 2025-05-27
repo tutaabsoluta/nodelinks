@@ -1,6 +1,6 @@
 import { BcryptAdapter } from "../../config";
 import { UserModel } from "../../data";
-import { CustomError, RegisterUserDto, UserEntity } from "../../domain";
+import { CustomError, LoginUserDto, RegisterUserDto, UserEntity } from "../../domain";
 
 
 
@@ -18,11 +18,11 @@ export class AuthService {
             const user = new UserModel(registerUserDto);
 
             // hash the password
-            user.password =  BcryptAdapter.hashPassword( registerUserDto.password );
+            user.password = BcryptAdapter.hashPassword(registerUserDto.password);
 
             // save the document
             await user.save();
-            
+
             // create the entity
             const { password, ...userEntity } = UserEntity.fromObject(user);
 
@@ -40,20 +40,28 @@ export class AuthService {
 
     }
 
-    public async loginUser() {
+    public async loginUser(loginUserDto: LoginUserDto) {
 
+        const user = await UserModel.findOne({ email: loginUserDto.email })
+
+        if (!user) throw CustomError.badRequest('User not found');
+
+        try {
+            const isMatch = BcryptAdapter.compareHash( loginUserDto.password, user.password )
+
+            if (!isMatch) throw CustomError.badRequest('Invalid password');
+
+            const { password, ...userEntity } = UserEntity.fromObject(user);
+
+            return {
+                user: userEntity,
+                token: 'ABC'
+            }
+
+        } catch (error) {
+
+            throw CustomError.internalServer(`${error}`);
+            
+        }
     }
-
 }
-
-/**
-Servicio para registro:
-- Recibe los datos desde el controller
-- Hacer verificaciones:
-    - revisar si existe el email en la BD
-- Instanciar el Model
-- Guardar el usuario
-- Elimnar el password del objeto
-- DEVOLVER EL USUARIO Y EL TOKEN
-
- */
