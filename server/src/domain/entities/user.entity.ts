@@ -14,16 +14,16 @@ export class UserEntity {
     ) { }
 
 
-    public fromObject( object: { [ key: string ]: any } ) {
+    public static fromObject( object: { [ key: string ]: any } ) {
 
-        const { id, _id, user, email, password } = object;
+        const { id, _id, name, email, password } = object;
 
         if ( !id && _id ) throw CustomError.badRequest('Missing id');
-        if ( user ) throw CustomError.badRequest('Missing user');
-        if ( email ) throw CustomError.badRequest('Missing email');
+        if ( !name ) throw CustomError.badRequest('Missing name');
+        if ( !email ) throw CustomError.badRequest('Missing email');
         if ( !password ) throw CustomError.badRequest('Missing password');
 
-        return new UserEntity( id || _id,user, email, password );
+        return new UserEntity( id || _id, name, email, password );
 
     }
 }
