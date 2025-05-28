@@ -1,4 +1,4 @@
-import { BcryptAdapter } from "../../config";
+import { BcryptAdapter, JwtAdapter } from "../../config";
 import { UserModel } from "../../data";
 import { CustomError, LoginUserDto, RegisterUserDto, UserEntity } from "../../domain";
 
@@ -42,7 +42,7 @@ export class AuthService {
 
     public async loginUser(loginUserDto: LoginUserDto) {
 
-        const user = await UserModel.findOne({ email: loginUserDto.email })
+        const user = await UserModel.findOne({ email: loginUserDto.email });
 
         if (!user) throw CustomError.badRequest('User not found');
 
@@ -53,9 +53,13 @@ export class AuthService {
 
             const { password, ...userEntity } = UserEntity.fromObject(user);
 
+            const token = await JwtAdapter.generetaToken({ id: user.id });
+
+            if ( !token ) throw CustomError.internalServer('Error while creating jwt');
+
             return {
                 user: userEntity,
-                token: 'ABC'
+                token: token,
             }
 
         } catch (error) {

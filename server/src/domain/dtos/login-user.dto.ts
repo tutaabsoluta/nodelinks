@@ -8,7 +8,7 @@ export class LoginUserDto {
         public readonly password: string
     ) {}
 
-    static getUser( object:{ [ key: string ]: any } ): [ string?, LoginUserDto? ] {
+    static create( object:{ [ key: string ]: any } ): [ string?, LoginUserDto? ] {
 
         if ( !object ) return [ 'Missing email and password', undefined ]
 
