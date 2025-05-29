@@ -42,11 +42,14 @@ export class AuthController {
             .then( (user) => res.json( user ) )
             .catch( (error) => this.handleError( error, res ) )
     }
-}
 
-/*
-Controller:
-- Crear el DTO
-- Verificar si existe un error
--- Llamar al servicio y pasarle los datos
-*/
+    validateEmail(req: Request, res: Response) {
+
+        const { token } = req.params;
+
+        res.json(token);
+        // this.authService.validateEmail( token )
+        //     .then(() => { res.json('Email validated') })
+        //     .catch(( error ) => { this.handleError(error, res)})
+    }
+}
