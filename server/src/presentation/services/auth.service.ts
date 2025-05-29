@@ -82,10 +82,6 @@ export class AuthService {
 
     }
 
-    public validateEmail() {
-
-    }
-
     private sendEmailValidationLink = async (email: string) => {
 
         // generar token
@@ -109,6 +105,24 @@ export class AuthService {
         const isSent = await this.emailService.sendEmail(options);
 
         if (!isSent) throw CustomError.internalServer('Error sending email');
+
+        return true;
+    }
+
+    public validateEmail = async ( token: string ) => {
+
+        const payload = await JwtAdapter.validateJwt(token);
+        if ( !payload ) throw CustomError.unauthorized('Invalid token');
+
+        const { email } = payload as { email: string };
+        if ( !email ) throw CustomError.internalServer('Email doesnt exist in the token');
+
+        const user = await UserModel.findOne({ email });
+        if ( !user ) throw CustomError.internalServer('Email doesnt exist');
+
+        user.emailValidated = true;
+
+        await user.save();
 
         return true;
     }

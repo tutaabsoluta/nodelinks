@@ -4,6 +4,7 @@ interface IUser {
     name: string
     email: string
     password: string
+    emailValidated: boolean
 }
 
 const userSchema = new mongoose.Schema({
