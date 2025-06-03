@@ -1,4 +1,4 @@
-import { BcryptAdapter, envs, JwtAdapter } from "../../config";
+import { BcryptAdapter, envs, JwtAdapter, Slugify, } from "../../config";
 import { UserModel } from "../../data";
 import { CustomError, LoginUserDto, RegisterUserDto, UserEntity } from "../../domain";
 import { EmailService } from "./email.service";
@@ -13,17 +13,24 @@ export class AuthService {
 
     public async registerUser(registerUserDto: RegisterUserDto) {
 
-        const existUser = await UserModel.findOne({ email: registerUserDto.email });
+        const slugifiedHandle = Slugify.create(registerUserDto.handle);
 
-        if (existUser) throw CustomError.badRequest('Email already exist');
+        const [existUser, existHandle] = await Promise.all([
+            UserModel.findOne({ email: registerUserDto.email }),
+            UserModel.findOne({ handle: slugifiedHandle })
+        ])
+
+        if (existUser) throw CustomError.conflict('The user already exist');
+        if (existHandle) throw CustomError.conflict('The handle already exist');
 
         try {
 
             // create document
-            const user = new UserModel(registerUserDto);
-
-            // hash the password
-            user.password = BcryptAdapter.hashPassword(registerUserDto.password);
+            const user = new UserModel({
+                ...registerUserDto,
+                password: BcryptAdapter.hashPassword(registerUserDto.password),
+                handle: slugifiedHandle 
+            });
 
             // save the document
             await user.save();
@@ -34,6 +41,7 @@ export class AuthService {
             // create the entity
             const { password, ...userEntity } = UserEntity.fromObject(user);
 
+            // create the token
             const token = await JwtAdapter.generetaToken({ id: user.id });
 
             if (!token) throw CustomError.internalServer('Error while creating jwt');
@@ -45,11 +53,8 @@ export class AuthService {
             };
 
         } catch (error) {
-
             throw CustomError.internalServer(`${error}`);
-
         }
-
     }
 
     public async loginUser(loginUserDto: LoginUserDto) {
@@ -109,16 +114,16 @@ export class AuthService {
         return true;
     }
 
-    public validateEmail = async ( token: string ) => {
+    public validateEmail = async (token: string) => {
 
         const payload = await JwtAdapter.validateJwt(token);
-        if ( !payload ) throw CustomError.unauthorized('Invalid token');
+        if (!payload) throw CustomError.unauthorized('Invalid token');
 
         const { email } = payload as { email: string };
-        if ( !email ) throw CustomError.internalServer('Email doesnt exist in the token');
+        if (!email) throw CustomError.internalServer('Email doesnt exist in the token');
 
         const user = await UserModel.findOne({ email });
-        if ( !user ) throw CustomError.internalServer('Email doesnt exist');
+        if (!user) throw CustomError.internalServer('Email doesnt exist');
 
         user.emailValidated = true;
 
