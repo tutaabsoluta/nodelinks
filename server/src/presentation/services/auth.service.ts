@@ -18,7 +18,7 @@ export class AuthService {
         const [existUser, existHandle] = await Promise.all([
             UserModel.findOne({ email: registerUserDto.email }),
             UserModel.findOne({ handle: slugifiedHandle })
-        ])
+        ]);
 
         if (existUser) throw CustomError.conflict('The user already exist');
         if (existHandle) throw CustomError.conflict('The handle already exist');
@@ -66,7 +66,7 @@ export class AuthService {
         try {
             const isMatch = BcryptAdapter.compareHash(loginUserDto.password, user.password)
 
-            if (!isMatch) throw CustomError.badRequest('Invalid password');
+            if (!isMatch ) throw CustomError.badRequest('Invalid password');
 
             const { password, ...userEntity } = UserEntity.fromObject(user);
 
@@ -80,7 +80,7 @@ export class AuthService {
             }
 
         } catch (error) {
-
+            if (error instanceof CustomError) throw error;
             throw CustomError.internalServer(`${error}`);
 
         };
