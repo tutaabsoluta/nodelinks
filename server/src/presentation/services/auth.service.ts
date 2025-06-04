@@ -61,7 +61,7 @@ export class AuthService {
 
         const user = await UserModel.findOne({ email: loginUserDto.email });
 
-        if (!user) throw CustomError.badRequest('User not found');
+        if (!user) throw CustomError.notFound('User not found');
 
         try {
             const isMatch = BcryptAdapter.compareHash(loginUserDto.password, user.password)
