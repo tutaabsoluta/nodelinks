@@ -1,12 +1,12 @@
 
-import './App.css'
+// import './App.css'
 
 function App() {
 
 
   return (
     <>
-      <h1 className='text-6xl'>Nodelinks</h1>
+      <h1 className='text-6xl font-black'>Nodelinks</h1>
     </>
   )
 }
