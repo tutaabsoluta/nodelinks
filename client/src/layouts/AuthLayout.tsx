@@ -6,12 +6,19 @@ export const AuthLayout = () => {
         <>
             <div className="bg-slate-800 min-h-screen">
                 <div className="max-w-lg mx-auto pt-10 px-5">
-                    <img src="/logo.png" alt="Nodelinks logo" />
-                </div>
+                    <div className="grid place-items-center">
+                        <img
+                            src="/logo.png"
+                            alt="Nodelinks logo"
+                            className="max-w-64 h-auto"
+                        />
 
+                    </div>
                 <div className="py-10">
                     <Outlet />
                 </div>
+                </div>
+
             </div>
         </>
     )
