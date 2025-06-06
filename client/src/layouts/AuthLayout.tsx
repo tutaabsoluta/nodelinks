@@ -1,4 +1,5 @@
 import { Outlet } from "react-router";
+import { Toaster } from "sonner";
 
 
 export const AuthLayout = () => {
@@ -14,12 +15,13 @@ export const AuthLayout = () => {
                         />
 
                     </div>
-                <div className="py-10">
-                    <Outlet />
+                    <div className="py-10">
+                        <Outlet />
+                    </div>
                 </div>
-                </div>
-
             </div>
+
+            <Toaster position="top-right" />
         </>
     )
 }

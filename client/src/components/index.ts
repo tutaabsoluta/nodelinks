@@ -1,4 +1,4 @@
 
 
-export * from './Error';
+export * from './ErrorMessage';
 export * from './RegisterForm';
