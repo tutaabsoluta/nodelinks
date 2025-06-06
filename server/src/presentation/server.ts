@@ -1,5 +1,6 @@
 import express, { Router } from 'express'
-
+import cors, { CorsOptions} from 'cors'
+import { envs } from '../config';
 interface Options {
     port: number,
     routes: Router,
@@ -27,11 +28,24 @@ export class Server {
         this.app.use( express.json() );
         this.app.use( express.urlencoded({ extended: true }) );
 
+        //CORS
+        this.app.use( cors( this.corsOptions ) )
+
         // routes
         this.app.use( this.routes );
 
         this.app.listen(this.port, () => {
             console.log('Server running in port:', this.port)
         })
+    }
+
+    private corsOptions: CorsOptions = {
+        origin: function ( origin, callback ) {
+            if ( !origin || envs.FRONTEND_URL ) {
+                callback( null, true )
+            } else {
+                callback( new Error('Not allowed by CORS') )
+            } 
+        }
     }
 }
