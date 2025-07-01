@@ -1,28 +1,22 @@
-import { isAxiosError } from "axios";
+import { isAxiosError } from "axios"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import api from "../config/axios"
+import type { LoginUser } from "../types"
 import { ErrorMessage } from "./ErrorMessage"
-import type { RegisterUser } from "../types";
-import { toast } from "sonner";
-import api from "../config/axios";
 
-
-
-export const RegisterForm = () => {
+export const LoginForm = () => {
 
     const initialValues = {
-        name: '',
         email: '',
-        handle: '',
         password: '',
-        password_confirmation: '',
     }
 
-    const { handleSubmit, register, reset, watch, formState: { errors } } = useForm<RegisterUser>({ defaultValues: initialValues });
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<LoginUser>({ defaultValues: initialValues })
 
-    const handleRegister = async (formData: RegisterUser) => {
-
+    const handleLogin = async (formdata: LoginUser) => {
         try {
-            const { data } = await api.post('/auth/register', formData);
+            const { data } = await api.post('auth/login', formdata);
             toast.success(data.message, {
                 style: {
                     backgroundColor: '#72ed97',
@@ -30,7 +24,6 @@ export const RegisterForm = () => {
                     color: 'black'
                 }
             })
-
         } catch (error) {
             if (isAxiosError(error) && error.response) {
                 toast.error(error.response.data.error, {
@@ -46,31 +39,12 @@ export const RegisterForm = () => {
         reset();
     }
 
-
-    const password = watch('password');
-
     return (
         <form
             className="bg-white px-8 py-16 rounded-md mt-10"
-            onSubmit={handleSubmit(handleRegister)}
+            onSubmit={handleSubmit(handleLogin)}
         >
 
-            {/* Name */}
-            <div className="grid grid-cols-1 mb-2">
-                <label htmlFor="name" className="mb-2">Name</label>
-                <input
-                    type="text"
-                    className="bg-slate-100 p-2 rounded-md"
-                    placeholder="Your name"
-                    id="name"
-                    {
-                    ...register('name', {
-                        required: 'The name is required'
-                    })
-                    }
-                />
-                {errors.name && <ErrorMessage message={`${errors.name.message}`} />}
-            </div>
             {/* Email */}
             <div className="grid grid-cols-1 mb-2">
                 <label htmlFor="email" className="mb-2">E-mail</label>
@@ -91,22 +65,7 @@ export const RegisterForm = () => {
                 />
                 {errors.email && <ErrorMessage message={`${errors.email.message}`} />}
             </div>
-            {/* Handle */}
-            <div className="grid grid-cols-1 mb-2">
-                <label htmlFor="handle" className="mb-2">Handle</label>
-                <input
-                    type="text"
-                    className="bg-slate-100 p-2 rounded-md"
-                    placeholder="Your handle without spaces"
-                    id="handle"
-                    {
-                    ...register('handle', {
-                        required: 'The handle is required',
-                    })
-                    }
-                />
-                {errors.handle && <ErrorMessage message={`${errors.handle.message}`} />}
-            </div>
+
             {/* Password */}
             <div className="grid grid-cols-1 mb-2">
                 <label htmlFor="password" className="mb-2">Password</label>
@@ -131,33 +90,13 @@ export const RegisterForm = () => {
                 />
                 {errors.password && <ErrorMessage message={`${errors.password.message}`} />}
             </div>
-            {/* Confirm password */}
-            <div className="grid grid-cols-1 mb-2">
-                <label htmlFor="confirm" className="mb-2">Confirm Pasword</label>
-                <input
-                    type="password"
-                    className="bg-slate-100 p-2 rounded-md"
-                    placeholder="Confirm your password"
-                    id="confirm"
-                    {
-                    ...register('password_confirmation', {
-                        required: 'Please confirm your password',
-                        min: {
-                            value: 8,
-                            message: 'The password must contain at least 8 characters'
-                        },
-                        validate: (value) => value === password || 'The passwords doesnt match'
-                    })
-                    }
-                />
-                {errors.password_confirmation && <ErrorMessage message={`${errors.password_confirmation.message}`} />}
-            </div>
+
             {/* Submit Buttom */}
             <button
                 type="submit"
                 className="w-full bg-green-500 hover:bg-green-600 transition-all duration-300 text-white uppercase font-bold py-2 rounded-md mt-6"
             >
-                Create Account
+                Login
             </button>
         </form>
     )

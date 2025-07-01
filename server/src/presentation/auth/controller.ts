@@ -42,7 +42,10 @@ export class AuthController {
         if ( error ) return res.status(400).json({error});
 
         this.authService.loginUser( loginUserDto! )
-            .then( (user) => res.json( user ) )
+            .then( (user) => res.json( {
+                message: 'Login successfull',
+                user,
+            } ) )
             .catch( (error) => this.handleError( error, res ) )
     }
 

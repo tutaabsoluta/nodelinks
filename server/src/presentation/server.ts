@@ -1,6 +1,7 @@
 import express, { Router } from 'express'
 import cors, { CorsOptions} from 'cors'
 import { envs } from '../config';
+
 interface Options {
     port: number,
     routes: Router,
