@@ -1,4 +1,4 @@
-import jwt, { Secret, SignOptions } from 'jsonwebtoken';
+import jwt, { JwtPayload, SignOptions } from 'jsonwebtoken';
 import { envs } from './envs';
 
 
@@ -8,10 +8,10 @@ export class JwtAdapter {
 
 
 
-    static async generetaToken(payload: any, duration: SignOptions['expiresIn'] = '10min') {
+    static async generetaToken( payload: JwtPayload, duration: SignOptions['expiresIn'] = '100d' ) {
 
         return new Promise((resolve) => {
-            jwt.sign(payload, JWT_SEED, { expiresIn: duration }, (err, token) => {
+            jwt.sign( payload, JWT_SEED, { expiresIn: duration }, (err, token) => {
 
                 if (err) return resolve(null)
 
@@ -24,7 +24,7 @@ export class JwtAdapter {
 
         return new Promise((resolve) => {
 
-            jwt.verify(token, JWT_SEED, ( error, decoded ) => {
+            jwt.verify( token, JWT_SEED, ( error, decoded ) => {
 
                 if ( error ) resolve( null );
                 
