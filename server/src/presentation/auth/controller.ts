@@ -28,10 +28,7 @@ export class AuthController {
             return;
         }
         this.authService.registerUser(registerUserDto!)
-            .then((user) => res.status(201).json({
-                message: 'User created successfully',
-                user: user
-            }))
+            .then((user) => res.status(201).json( user ))
             .catch((error) => this.handleError(error, res))
     }
 
@@ -42,10 +39,7 @@ export class AuthController {
         if ( error ) return res.status(400).json({error});
 
         this.authService.loginUser( loginUserDto! )
-            .then( (user) => res.json( {
-                message: 'Login successfull',
-                user,
-            } ) )
+            .then( (user) => res.json( user ) )
             .catch( (error) => this.handleError( error, res ) )
     }
 

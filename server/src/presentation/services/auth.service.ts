@@ -50,6 +50,7 @@ export class AuthService {
             return {
                 user: userEntity,
                 token: token,
+                message: 'User created successfully',
             };
 
         } catch (error) {
@@ -77,6 +78,7 @@ export class AuthService {
             return {
                 user: userEntity,
                 token: token,
+                message: 'Login successfull',
             }
 
         } catch (error) {
