@@ -17,7 +17,8 @@ export const LoginForm = () => {
     const handleLogin = async (formdata: LoginUser) => {
         try {
             const { data } = await api.post('auth/login', formdata);
-            console.log(data)
+            //Save the token in Local Storage
+            localStorage.setItem('AUTH_TOKEN', data.token);
             toast.success(data.message, {
                 style: {
                     backgroundColor: '#72ed97',
