@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router';
 import { LoginPage, RegisterPage } from './pages';
 import { AuthLayout } from './layouts';
 import AppLayout from './layouts/AppLayout';
+import { NodeLinkPage } from './pages/NodeLinkPage';
+import { ProfilePage } from './pages/ProfilePage';
 
 
 export default function Router() {
@@ -22,7 +24,15 @@ export default function Router() {
                     element={ <AppLayout /> }
                     path='/admin'
                 >
-                    <Route index={ true }></Route>
+                    <Route 
+                        index={ true }
+                        element={ <NodeLinkPage /> }
+                    />
+
+                    <Route 
+                        element={ <ProfilePage /> }
+                        path='profile'
+                    />
                 </Route>
             </Routes>
         </BrowserRouter>
