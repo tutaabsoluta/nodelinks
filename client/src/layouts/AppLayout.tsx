@@ -1,5 +1,6 @@
 import { Link, Outlet } from 'react-router'
 import { Toaster } from "sonner";
+import NavigationTabs from '../components/NavigationTabs';
 
 export default function AppLayout() {
 
@@ -9,7 +10,9 @@ export default function AppLayout() {
             <header className="bg-slate-800 py-5">
                 <div className="mx-auto max-w-5xl flex flex-col md:flex-row items-center md:justify-between">
                     <div className="w-full p-5 lg:p-0 md:w-1/3">
-                        <img src="/logo.svg" className="w-full block" />
+                    <div className='w-32 h-auto'>
+                        <img src="/logo.png" className="w-full block" />
+                    </div>
                     </div>
                     <div className="md:w-1/3 md:flex md:justify-end">
                         <button
@@ -24,6 +27,7 @@ export default function AppLayout() {
             <div className="bg-gray-100  min-h-screen py-10">
                 <main className="mx-auto max-w-5xl p-10 md:p-0">
 
+                    <NavigationTabs />
                     
                     <div className="flex justify-end">
                         <Link 
