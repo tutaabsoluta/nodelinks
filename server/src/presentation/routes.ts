@@ -11,6 +11,7 @@ export class AppRoutes {
 
         router.use( '/auth', AuthRoutes.routes );
 
+
         return router;
     }
 
