@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
 
-interface IUser {
-    handle: string
-    name: string
-    email: string
-    password: string
-    emailValidated: boolean
-}
+// export interface IUser {
+//     handle: string
+//     name: string
+//     email: string
+//     password: string
+//     emailValidated: boolean
+// }
 
 const userSchema = new mongoose.Schema({
 
@@ -42,4 +42,4 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-export const UserModel = mongoose.model<IUser>('User', userSchema);
+export const UserModel = mongoose.model('User', userSchema);

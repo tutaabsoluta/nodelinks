@@ -59,40 +59,6 @@ export class AuthController {
     }
 
     getUser = (req: Request, res: Response) => {
-        const bearer = req.headers.authorization;
-
-        if (!bearer) {
-            const error = new Error('Unauthorized')
-            return res.status(401).json({ error: error.message });
-        }
-
-        const [, token] = bearer.split(' ');
-
-        if (!token) {
-            const error = new Error('No token provided')
-            return res.status(500).json({ error: error.message });
-        }
-
-        JwtAdapter.validateJwt(token)
-            .then(decoded => {
-                if (!decoded) {
-                    return res.status(401).json({ error: 'Invalid token' });
-                }
-
-                const { id } = decoded as JwtPayload;
-
-                return UserModel.findById(id)
-                    .then(user => {
-                        if (!user) {
-                            return res.status(404).json({ error: 'User not found' });
-                        }
-
-                        return res.status(200).json({ user });
-                    });
-            })
-            .catch(error => {
-                console.error(error);
-                res.status(500).json({ error: 'Internal server error' });
-            });
+      res.json( req.user )
     }
 }
