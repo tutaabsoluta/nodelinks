@@ -1,9 +1,7 @@
 import { Request, Response } from 'express';
 import { AuthService } from "../services/auth.service"
 import { CustomError, LoginUserDto, RegisterUserDto, UserEntity } from "../../domain"
-import { JwtAdapter } from '../../config';
-import { JwtPayload } from 'jsonwebtoken';
-import { UserModel } from '../../data';
+
 
 
 
@@ -58,7 +56,5 @@ export class AuthController {
             .catch((error) => { this.handleError(error, res) })
     }
 
-    getUser = (req: Request, res: Response) => {
-      res.json( req.user )
-    }
+
 }

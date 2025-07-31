@@ -1,9 +1,19 @@
 import { Link, Outlet } from 'react-router'
 import { Toaster } from "sonner";
 import NavigationTabs from '../components/NavigationTabs';
+import { useQuery } from '@tanstack/react-query';
+import { getUser } from '../api';
 
 export default function AppLayout() {
 
+    const { data, error, isError, isLoading } = useQuery({
+        queryFn: getUser,
+        queryKey: ['user'],
+        retry: 1,
+        refetchOnWindowFocus: false,
+    });
+
+    console.log(data)
 
     return (
         <>
