@@ -1,19 +1,25 @@
-import { Link, Outlet } from 'react-router'
+import { Link, Navigate, Outlet } from 'react-router'
 import { Toaster } from "sonner";
 import NavigationTabs from '../components/NavigationTabs';
 import { useQuery } from '@tanstack/react-query';
 import { getUser } from '../api';
+import { LoadingSpinner } from '../components';
 
 export default function AppLayout() {
 
-    const { data, error, isError, isLoading } = useQuery({
+    const { data, isError, isLoading } = useQuery({
         queryFn: getUser,
         queryKey: ['user'],
         retry: 1,
         refetchOnWindowFocus: false,
     });
 
-    console.log(data)
+
+    if (isLoading) return <LoadingSpinner />;
+
+    if (isError) {
+        return <Navigate to={`/auth/login`} />
+    }
 
     return (
         <>
