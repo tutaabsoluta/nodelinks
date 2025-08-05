@@ -23,7 +23,7 @@ export class UserController {
         res.json(req.user)
     }
 
-    
+
 
     updateUser = (req: Request, res: Response) => {
         const [error, updateUserDto] = UpdateUserDto.create(req.body);
@@ -31,7 +31,11 @@ export class UserController {
             return res.status(400).json({ error: error ?? 'Invalid input' });
         }
 
-        this.userService.updateUser(req.user!, updateUserDto)
+        if (!req.user) {
+            return res.status(401).json({ error: 'User not authenticated' });
+        }
+
+        this.userService.updateUser(req.user, updateUserDto)
             .then((user) => {
                 res.send(user)
             })

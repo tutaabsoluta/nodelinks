@@ -9,23 +9,22 @@ export class UserService {
 
 
     async updateUser(user: UserEntity, updateUserDto: UpdateUserDto) {
-
         
-        try {
+        const handle = Slugify.create(updateUserDto.handle);
 
-            const handle = Slugify.create( updateUserDto.handle );
-    
-            const handleExists = await UserModel.findOne({handle});
-    
-            if ( handleExists ) {
-                throw CustomError.conflict('The handle already exist')
-            }
-    
-            user.handle = updateUserDto.handle;
-            user.description = updateUserDto.description;
-            
-        } catch (error) {
-            console.log({error})
+        const handleExists = await UserModel.findOne({ handle });
+        if (handleExists) {
+            throw CustomError.conflict('The handle already exists');
         }
-    } 
+
+        await UserModel.updateOne(
+            { _id: user.id },
+            { handle: updateUserDto.handle, description: updateUserDto.description }
+        );
+
+        const updatedUserDoc = await UserModel.findById(user.id);
+        if (!updatedUserDoc) throw CustomError.notFound('User not found');
+
+        return updatedUserDoc;
+    }
 }
