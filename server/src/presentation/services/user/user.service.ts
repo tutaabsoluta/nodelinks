@@ -13,7 +13,7 @@ export class UserService {
         const handle = Slugify.create(updateUserDto.handle);
 
         const handleExists = await UserModel.findOne({ handle });
-        if (handleExists) {
+        if (handleExists && handleExists.email !== user.email) {
             throw CustomError.conflict('The handle already exists');
         }
 
@@ -22,9 +22,13 @@ export class UserService {
             { handle: updateUserDto.handle, description: updateUserDto.description }
         );
 
-        const updatedUserDoc = await UserModel.findById(user.id);
+
+        const updatedUserDoc = await UserModel.findById(user.id).select('-password');
         if (!updatedUserDoc) throw CustomError.notFound('User not found');
 
-        return updatedUserDoc;
+        return {
+            updatedUserDoc,
+            message: "Profile updated succesfully!"
+        };
     }
 }

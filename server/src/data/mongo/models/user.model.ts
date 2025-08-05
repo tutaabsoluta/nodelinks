@@ -1,12 +1,5 @@
-import mongoose from 'mongoose'
+import mongoose, {Document} from 'mongoose'
 
-// export interface IUser {
-//     handle: string
-//     name: string
-//     email: string
-//     password: string
-//     emailValidated: boolean
-// }
 
 const userSchema = new mongoose.Schema({
 
