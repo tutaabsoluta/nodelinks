@@ -1,6 +1,6 @@
-import { BcryptAdapter, envs, JwtAdapter, Slugify, } from "../../config";
-import { UserModel } from "../../data";
-import { CustomError, LoginUserDto, RegisterUserDto, UserEntity } from "../../domain";
+import { BcryptAdapter, envs, JwtAdapter, Slugify, } from "../../../config";
+import { UserModel } from "../../../data";
+import { CustomError, LoginUserDto, RegisterUserDto, UserEntity } from "../../../domain";
 import { EmailService } from "./email.service";
 
 

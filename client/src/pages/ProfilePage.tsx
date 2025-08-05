@@ -8,7 +8,7 @@ export const ProfilePage = () => {
     const queryClient = useQueryClient();
 
     const data = queryClient.getQueryData<User>(['user'])!;
-
+ 
 
 
     const { register, handleSubmit, formState: { errors } } = useForm<ProfileForm>({
@@ -16,7 +16,7 @@ export const ProfilePage = () => {
             handle: data.handle,
             description: data.description,
         }
-    });
+    }); 
 
     const handleUserProfileForm = (formData: ProfileForm) => {
 

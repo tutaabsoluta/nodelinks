@@ -1,5 +1,5 @@
 
 
 
-export * from './auth.service';
-export * from './email.service';
+export * from './auth/auth.service';
+export * from './auth/email.service';
