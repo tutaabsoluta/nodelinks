@@ -7,6 +7,7 @@ export type User = {
     email: string
     description: string
     id: string
+    message?: string
 }
 
 export type ProfileForm = Pick<User, 'handle' | 'description'>
