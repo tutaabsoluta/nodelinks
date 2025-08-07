@@ -2,8 +2,7 @@ import { Request, Response } from "express"
 import { UpdateUserDto } from "../dtos/user/update-user.dto"
 import { CustomError } from "../../domain"
 import { UserService } from "../services/user/user.service"
-
-
+import { FormidableAdapter } from "../../config/formidable.adapter"
 
 export class UserController {
 
@@ -42,5 +41,12 @@ export class UserController {
             .catch((error) => {
                 this.handleError(error, res)
             })
+    }
+
+    uploadImage = (req: Request, res: Response) => {
+
+        FormidableAdapter.parseForm(req)
+            .then((url) => res.status(200).json({ url }))
+            .catch((error) => this.handleError(error, res));
     }
 }

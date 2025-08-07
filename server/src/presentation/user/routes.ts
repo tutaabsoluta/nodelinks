@@ -15,8 +15,10 @@ export class UserRoutes {
         const controller = new UserController(service);
 
 
-        router.get('/', [ AuthMiddleware.authenticate, controller.getUser ],);
-        router.patch('/', [ AuthMiddleware.authenticate, controller.updateUser ],);
+        router.get('/', controller.getUser);
+        router.patch('/', controller.updateUser );
+
+        router.post('/image', controller.uploadImage)
 
         return router;
     }
