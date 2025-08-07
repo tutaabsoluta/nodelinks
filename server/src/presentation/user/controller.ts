@@ -1,10 +1,20 @@
 import { Request, Response } from "express"
 import { UpdateUserDto } from "../dtos/user/update-user.dto"
-import { CustomError } from "../../domain"
+import { CustomError, UserEntity } from "../../domain"
 import { UserService } from "../services/user/user.service"
 import { FormidableAdapter } from "../../config/formidable.adapter"
+import { UserModel } from "../../data"
 
+declare global {
+    namespace Express {
+        interface Request {
+            user?: UserEntity;
+        }
+    }
+}
 export class UserController {
+
+
 
     constructor(
         public readonly userService: UserService
@@ -44,9 +54,11 @@ export class UserController {
     }
 
     uploadImage = (req: Request, res: Response) => {
-
         FormidableAdapter.parseForm(req)
-            .then((url) => res.status(200).json({ url }))
+            .then(async (url) => {
+                await this.userService.uploadImage(req.user?.id!, url);
+                res.status(200).json({ url, message: "Image uploaded successfully!" });
+            })
             .catch((error) => this.handleError(error, res));
     }
 }

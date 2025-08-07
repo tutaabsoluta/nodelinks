@@ -9,7 +9,7 @@ export class UserService {
 
 
     async updateUser(user: UserEntity, updateUserDto: UpdateUserDto) {
-        
+
         const handle = Slugify.create(updateUserDto.handle);
 
         const handleExists = await UserModel.findOne({ handle });
@@ -30,5 +30,16 @@ export class UserService {
             updatedUserDoc,
             message: "Profile updated succesfully!"
         };
+    }
+
+    async uploadImage(userId: string, imageUrl: string) {
+        if (!userId) {
+            throw CustomError.unauthorized('User not authenticated');
+        }
+
+        await UserModel.updateOne(
+            { _id: userId },
+            { image: imageUrl }
+        );
     }
 }
