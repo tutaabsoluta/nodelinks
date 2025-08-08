@@ -1,60 +1,22 @@
-import { useForm } from "react-hook-form"
-import { ErrorMessage } from "../components";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { ProfileForm, User } from "../types";
-import { updateUser } from "../api";
-import { toast } from "sonner";
+import { useFormContext } from "react-hook-form";
+import { ErrorMessage } from "../ui";
+import type { FormEventHandler } from "react";
+import type { ProfileForm } from "../../types";
 
-export const ProfilePage = () => {
-
-    const queryClient = useQueryClient();
-
-    const data = queryClient.getQueryData<User>(['user'])!;
+type ProfileFormProps = {
+  onSubmit: FormEventHandler<HTMLFormElement>;
+};
 
 
 
-    const { register, handleSubmit, formState: { errors } } = useForm<ProfileForm>({
-        defaultValues: {
-            handle: data.handle,
-            description: data.description,
-        }
-    });
+export const ProfileInfoForm = ({ onSubmit }: ProfileFormProps) => {
 
-    const updateProfileMutation = useMutation({
-        mutationFn: updateUser,
-        onError: (error) => {
-            toast.error(error.message, {
-                style: {
-                    backgroundColor: '#db4b4b',
-                    fontSize: '16px',
-                    color: 'white'
-                }
-            })
-        },
-        onSuccess: (data) => {
-            toast.success(data?.message, {
-                style: {
-                    backgroundColor: '#72ed97',
-                    fontSize: '16px',
-                    color: 'black'
-                }
-            })
-            queryClient.invalidateQueries({queryKey: ['user']})
-        }
-    })
-
-    const handleUserProfileForm = (formData: ProfileForm) => {
-        console.log(formData)
-        updateProfileMutation.mutate(formData)
-    }
-
-
-
+    const { register, formState: { errors } } = useFormContext<ProfileForm>();
 
     return (
         <form
             className="bg-white p-10 rounded-lg space-y-5"
-            onSubmit={handleSubmit(handleUserProfileForm)}
+            onSubmit={onSubmit}
         >
             <legend className="text-2xl text-slate-800 text-center">Edit Information</legend>
             <div className="grid grid-cols-1 gap-2">

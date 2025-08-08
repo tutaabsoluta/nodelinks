@@ -1,7 +1,7 @@
 
 
-export * from './HomePage';
-export * from './LoginPage';
-export * from './RegisterPage';
-export * from './NodeLinkPage';
-export * from './ProfilePage';
+
+export * from './auth'
+export * from './home'
+export * from './nodelinks'
+export * from './profile'

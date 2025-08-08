@@ -1,6 +1,6 @@
 import { isAxiosError } from "axios";
 import { useForm } from "react-hook-form"
-import { ErrorMessage } from "./ErrorMessage"
+import { ErrorMessage } from "./ui/ErrorMessage"
 import type { RegisterUser } from "../types";
 import { toast } from "sonner";
 import api from "../config/axios";
