@@ -1,6 +1,6 @@
+import { v2 as cloudinary } from 'cloudinary';
 import { Request } from "express";
 import { formidable } from 'formidable';
-import { v2 as cloudinary } from 'cloudinary';
 import { UuidAdapter } from "./uuid.adapter";
 
 export class FormidableAdapter {

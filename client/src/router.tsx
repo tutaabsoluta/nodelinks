@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router';
 import { LoginPage, RegisterPage } from './pages';
-import { AuthLayout } from './layouts';
-import AppLayout from './layouts/AppLayout';
+import {  AuthLayout, AppLayout } from './layouts';
 import { NodeLinkPage, ProfilePage } from './pages';
 
 

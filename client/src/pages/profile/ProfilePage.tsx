@@ -1,9 +1,9 @@
-import { FormProvider, useForm } from "react-hook-form"
-import { ProfileInfoForm } from "../../components";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { ProfileForm, User } from "../../types";
-import { updateUser } from "../../api";
+import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { updateUser } from "../../api";
+import { ProfileInfoForm } from "../../components";
+import type { ProfileForm, User } from "../../types";
 
 export const ProfilePage = () => {
 

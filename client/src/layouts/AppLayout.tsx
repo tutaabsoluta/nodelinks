@@ -4,7 +4,7 @@ import { getUser } from '../api';
 import { LoadingSpinner, NodeLink } from '../components';
 import { Navigate } from 'react-router';
 
-export default function AppLayout() {
+export const AppLayout = () =>  {
 
     const { data, isError, isLoading } = useQuery({
         queryFn: getUser,
