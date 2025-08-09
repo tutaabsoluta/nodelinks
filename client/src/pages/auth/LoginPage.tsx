@@ -1,5 +1,5 @@
 import { Link } from "react-router"
-import { LoginForm } from "../components"
+import { LoginForm } from "../../components"
 
 export const LoginPage = () => {
   return (

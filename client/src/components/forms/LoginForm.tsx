@@ -1,9 +1,9 @@
 import { isAxiosError } from "axios"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-import api from "../config/axios"
-import type { LoginUser } from "../types"
-import { ErrorMessage } from "./ui/ErrorMessage"
+import api from "../../config/axios"
+import type { LoginUser } from "../../types"
+import { ErrorMessage } from "../ui"
 
 export const LoginForm = () => {
 

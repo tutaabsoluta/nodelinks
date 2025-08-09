@@ -1,15 +1,16 @@
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "../ui";
-import type { FormEventHandler } from "react";
+import type { ChangeEventHandler, FormEventHandler } from "react";
 import type { ProfileForm } from "../../types";
 
 type ProfileFormProps = {
   onSubmit: FormEventHandler<HTMLFormElement>;
+  handleChange: ChangeEventHandler<HTMLInputElement>;
 };
 
 
 
-export const ProfileInfoForm = ({ onSubmit }: ProfileFormProps) => {
+export const ProfileInfoForm = ({ onSubmit, handleChange }: ProfileFormProps) => {
 
     const { register, formState: { errors } } = useFormContext<ProfileForm>();
 
@@ -55,15 +56,15 @@ export const ProfileInfoForm = ({ onSubmit }: ProfileFormProps) => {
 
             <div className="grid grid-cols-1 gap-2">
                 <label
-                    htmlFor="handle"
+                    htmlFor="image"
                 >Image:</label>
                 <input
                     id="image"
                     type="file"
-                    name="handle"
+                    name="image"
                     className="border-none bg-slate-100 rounded-lg p-2"
                     accept="image/*"
-                    onChange={() => { }}
+                    onChange={ handleChange }
                 />
             </div>
 

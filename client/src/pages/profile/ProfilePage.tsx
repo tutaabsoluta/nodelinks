@@ -46,10 +46,20 @@ export const ProfilePage = () => {
         updateProfileMutation.mutate(formData)
     }
 
+    const handleChange = ( e:React.ChangeEvent<HTMLInputElement> ) => {
+
+        if ( e.target.files ) {
+            console.log(e.target.files[0])
+        } 
+    }
+
 
     return (
         <FormProvider { ...methods }>
-            <ProfileInfoForm onSubmit={methods.handleSubmit(handleUserProfileForm)}/>
+            <ProfileInfoForm 
+                onSubmit={methods.handleSubmit(handleUserProfileForm)}
+                handleChange={ handleChange }
+            />
         </FormProvider>
     )
 }

@@ -1,5 +1,5 @@
 import { Link } from "react-router"
-import { RegisterForm } from "../components"
+import { RegisterForm } from "../../components/forms"
 
 
 export const RegisterPage = () => {
